@@ -1,25 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import Form from "./components/Form";
+import CounterTodos from "./components/CounterTodos";
+import Todos from "./components/Todos";
+import Buttons from "./components/Buttons";
+import { useDispatch, useSelector } from "react-redux";
+// import { fetchTodos } from "./store/todoSlice";
+import React from "react";
+import { selectTodos } from "./utilites/selectors";
+
+import { Container, Title } from "./utilites/styletComponents";
 
 function App() {
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(fetchTodos());
+  // }, [dispatch]);
+  const todos = useSelector(selectTodos);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container>
+      <Title className="title">Todos</Title>
+      <Form />
+      <CounterTodos />
+      {todos.length !== 0 && <Buttons />}
+      <Todos />
+    </Container>
   );
 }
 
