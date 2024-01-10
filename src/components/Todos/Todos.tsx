@@ -1,8 +1,7 @@
-
 import Todo from "./Todo";
-import { getFilteredTodos } from "./../utilites/selectors";
-import { useAppSelector } from "../hook";
-import { TodosWrap } from "../utilites/styletComponents";
+import { getFilteredTodos } from "../../utilites/selectors";
+import { useAppSelector } from "../../hook";
+import { TodosWrap } from "./Todo.styles";
 
 const Todos: React.FC = () => {
   const filteredTodos = useAppSelector(getFilteredTodos);

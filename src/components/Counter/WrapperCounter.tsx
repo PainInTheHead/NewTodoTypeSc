@@ -1,5 +1,4 @@
-import { Total } from "../utilites/styletComponents";
-
+import { Total } from "./Counter.styles";
 
 interface CounterProps {
   active: number;

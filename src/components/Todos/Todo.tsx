@@ -1,12 +1,12 @@
 import React from "react";
-import { useAppDispatch } from "../hook";
+import { useAppDispatch } from "../../hook";
 import {
   toggleTodo,
   deleteTodo,
   editTitleTodo,
   editorTodo,
-} from "./../store/todoSlice";
-import { TodoWrapper, TodoMainContent, InputNew, DeleteBtn, AcceptBtn } from "../utilites/styletComponents";
+} from "../../store/todoSlice";
+import { TodoWrapper } from "./Todo.styles";
 
 interface TodoProps {
   id: string;
@@ -38,8 +38,10 @@ const Todo: React.FC<TodoProps> = ({ id, title, done, isEdit }) => {
     dispatch(editTitleTodo({ id: id, title: e.target.value }));
   };
 
-  const handleWrapperDoubleClick: React.MouseEventHandler<HTMLDivElement> = (e) => {
-    const targetElem = e.target as Element
+  const handleWrapperDoubleClick: React.MouseEventHandler<HTMLDivElement> = (
+    e
+  ) => {
+    const targetElem = e.target as Element;
     if (targetElem.classList.contains("accept")) {
       e.stopPropagation();
     }
@@ -52,33 +54,34 @@ const Todo: React.FC<TodoProps> = ({ id, title, done, isEdit }) => {
   return (
     <TodoWrapper
       onDoubleClick={handleEdit}
-      className={done ? "done" : isEdit ? "edit" : ""}
+      done={done}
+      isEdit={isEdit}
+      // className={done ? "done" : isEdit ? "edit" : ""}
       key={id}
     >
-      <TodoMainContent
-        onDoubleClick={handleWrapperDoubleClick}
-      >
-        <AcceptBtn
-          src={done ? "./accetp.png" : "./noaccept.png"}
-          alt="accept"
-          onClick={goToggle}
-        ></AcceptBtn>
+      <div onDoubleClick={handleWrapperDoubleClick} className="todo-wrapper">
+        <button>
+          <img
+            src={done ? "./accetp.png" : "./noaccept.png"}
+            alt="accept"
+            onClick={goToggle}
+          ></img>
+        </button>
         {isEdit ? (
-          <InputNew
+          <input
             type="text"
             value={title}
             onChange={handleInputChange}
             onBlur={editTextTodo}
+            spellCheck="false"
           />
         ) : (
           <span>{title}</span>
         )}
-      </TodoMainContent>
-      <DeleteBtn
-        src="./deletebut.png"
-        alt="delete"
-        onClick={goDelete}
-      ></DeleteBtn>
+      </div>
+      <button>
+        <img src="./deletebut.png" alt="delete" onClick={goDelete}></img>
+      </button>
     </TodoWrapper>
   );
 };

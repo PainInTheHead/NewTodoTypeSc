@@ -1,24 +1,24 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 
-// export const fetchTodos = createAsyncThunk(
-//   "todos/fetchTodos",
-//   async function () {
-//     const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+export const fetchTodos = createAsyncThunk(
+  "todos/fetchTodos",
+  async function () {
+    const response = await fetch("https://jsonplaceholder.typicode.com/todos");
 
-//     const data = await response.json();
+    const data = await response.json();
 
-//     return data;
-//   }
-// );
+    return data;
+  }
+);
 
-type Todo = {
+interface Todo {
     id: string,
     title: string,
     done: boolean,
     isEdit: boolean,
 }
 
-type TodosState = {
+interface TodosState {
     todos: Todo[]
     filter: string
     status: null | string
@@ -65,15 +65,15 @@ const todoSlice = createSlice({
     },
 
     allSelected(state) {
-      const alltoggle = state.todos.filter((todo) => todo.done).length;
-      if (state.todos.length === alltoggle) {
+      const alltoggle = state.todos.every((todo) => todo.done);
+      if (alltoggle) {
         state.todos = state.todos.map((todo) => {
-          return { ...todo, done: false };
-        });
+          return {...todo, done: !todo.done}
+        })
       } else {
         state.todos = state.todos.map((todo) => {
-          return { ...todo, done: true };
-        });
+          return {...todo, done: true}
+        })
       }
     },
 
@@ -108,17 +108,17 @@ editTitleTodo(state, action: PayloadAction<{id: string, title: string}>) {
     },
   },
 
-  //   extraReducers: (builder) => {
-  //     builder.addCase(fetchTodos.pending, (state) => {
-  //       state.status = "loading";
-  //       state.error = null;
-  //     });
+    extraReducers: (builder) => {
+      builder.addCase(fetchTodos.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      });
 
-  //     builder.addCase(fetchTodos.fulfilled, (state, action) => {
-  //       state.status = "resolved";
-  //       state.todos = action.payload;
-  //     });
-  //   },
+      builder.addCase(fetchTodos.fulfilled, (state, action) => {
+        state.status = "resolved";
+        state.todos = action.payload;
+      });
+    },
 });
 
 export const {
