@@ -38,15 +38,14 @@ const todoSlice = createSlice({
 
   reducers: {
     putTodo(state, action: PayloadAction<string>) {
-      if (!action.payload) {
-        alert("nice try, budy");
-      } else {
+      if (action.payload) {
         state.todos.push({
           id: new Date().toISOString(),
           title: action.payload,
           done: false,
           isEdit: false,
-        });
+        }) 
+        
       }
     },
 
@@ -65,16 +64,10 @@ const todoSlice = createSlice({
     },
 
     allSelected(state) {
-      const alltoggle = state.todos.every((todo) => todo.done);
-      if (alltoggle) {
-        state.todos = state.todos.map((todo) => {
-          return {...todo, done: !todo.done}
-        })
-      } else {
-        state.todos = state.todos.map((todo) => {
-          return {...todo, done: true}
-        })
-      }
+      const allDone = state.todos.every((todo) => todo.done);
+      state.todos = state.todos.map((todo) => {
+        return {...todo, done: !allDone};
+      });
     },
 
 editTitleTodo(state, action: PayloadAction<{id: string, title: string}>) {

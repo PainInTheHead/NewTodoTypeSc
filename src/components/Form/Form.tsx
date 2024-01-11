@@ -9,6 +9,9 @@ const Form: React.FC = () => {
 
   const submitFormHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if (!value) {
+      alert("Нельзя так");
+    }
     dispatch(putTodo(value));
     setValue("");
   };
@@ -17,23 +20,23 @@ const Form: React.FC = () => {
     <FormWrapper className="form" onSubmit={submitFormHandler}>
       <div className="input-con">
         <button
-          className="btn-input-icon animate"
+          className="btn-input-icon"
           type="button"
           onClick={() => {
             dispatch(allSelected());
           }}
         >
-          <img src="./select.png" />
+          <img src="./select.png" alt="select"/>
         </button>
         <input
           className="form-input"
           type="text"
-          placeholder="add yours txt..."
+          placeholder="your todo..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
         <button type="submit" className="btn-input-icon">
-          <img src="./add.png"></img>
+          <img src="./add.png" alt="add"></img>
         </button>
       </div>
     </FormWrapper>
